@@ -13,12 +13,11 @@ const DataTable = () => {
     const [tableData, setTableData] = useState([])
 
     const reqOptions = {
-        method: 'post',
+        method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'search':'teststring'})
+        body: JSON.stringify({'search':'string'})
     }
     useEffect(()=>{
-          //fetch("https://jsonplaceholder.typicode.com/posts")
         fetch("http://localhost:8082/v1/search", reqOptions)
         .then((data) => data.json())
         .then((data) => setTableData(data))
