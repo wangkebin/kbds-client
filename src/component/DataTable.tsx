@@ -21,7 +21,7 @@ const DataTable = () => {
         fetch("http://localhost:8082/v1/search", reqOptions)
         .then((data) => data.json())
         .then((data) => setTableData(data))
-    })
+    },[])
 
     return (
         <div>
