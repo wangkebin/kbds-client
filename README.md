@@ -45,4 +45,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-![Screenshot of the app with local data](https://github.com/wangkebin/kbds-client/view.png)
+![Screenshot of the app with local data](https://github.com/wangkebin/kbds-client/blob/main/view.png)
