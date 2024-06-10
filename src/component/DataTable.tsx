@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import Alert from '@mui/material/Alert';
-import { Popover } from '@mui/material';
+import { Button, Popover } from '@mui/material';
 import Box from '@mui/material/Box';
 import {DataGrid, GridEventListener,GridColDef} from '@mui/x-data-grid'
 
@@ -15,8 +15,8 @@ const columns = [
 const cntcols = [
     {field: 'size', headerName: 'Size'},
     {field: 'name', headerName:'FileName'},
-    {field: 'loc', headerName: 'Location'}
-   
+    {field: 'loc', headerName: 'Location'},
+    {field: 'id', headerName: 'ID'}
 ]
 
 
@@ -28,10 +28,21 @@ const DataTable = () => {
     const [fileName, setFileName] = React.useState('')
     const [fileSize, setFileSize] = React.useState('')
 
+    const [fileId, setFileId] = React.useState('')
+
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setFileName(params.row.name)
         setFileSize(params.row.size)
       };
+
+      const handleDetailRowClick: GridEventListener<'rowClick'> = (params) => {
+        setFileId(params.row.id)
+      };
+
+    //   const handleButtonClickDeleteFile: (event: React.MouseEvent<HTMLAnchorElement>) = ()=>{
+    //     alert(fileId)
+    //   };
+
     const reqOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -46,6 +57,14 @@ const DataTable = () => {
             "size": fileSize
           }])
     }
+
+    // const reqDeleteOptions = {
+    //     method: 'POST',
+    //     headers: {'Content-Type': 'application/json'},
+    //     body: JSON.stringify([{
+    //         "id": fileId
+    //       }])
+    // }
 
     useEffect(()=>{
         fetch("http://localhost:8082/v1/duplicates", reqDetailOptions)
@@ -76,17 +95,25 @@ const DataTable = () => {
                     includeHeaders: false,
                 }}
             />
-            <h2>Details</h2>
+            <h2>Details</h2> 
             <DataGrid
                 rows={tableDetailData}
                 columns={cntcols}
+                columnVisibilityModel={{
+                    // Hide columns status and traderName, the other columns will remain visible
+                    id: false,
+                  }}
+                onRowClick={handleDetailRowClick} 
                 autosizeOptions={{
                     columns: ['name', 'size', 'loc'],
                     includeOutliers: true,
                     includeHeaders: false,
                 }}
-            />
+            /> 
+            <Button
+            onClick={()=>{alert(fileId)}}>Delete Selected file</Button>
         </div>
+       
     )
 }
 
