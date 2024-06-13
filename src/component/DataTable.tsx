@@ -117,7 +117,7 @@ const DataTable = () => {
                 }}
             /> 
             <Button
-            onClick={()=>{alert(fileId)}}>Delete Selected file</Button>
+            onClick={()=>{alert("deleting file with id="+fileId)}}>Delete Selected file</Button>
         </div>
        
     )
