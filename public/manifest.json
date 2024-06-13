@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "kbds client",
+  "name": "KB duplicate file system client",
   "icons": [
     {
       "src": "favicon.ico",

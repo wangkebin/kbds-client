@@ -1,0 +1,6 @@
+{
+    "production": false,
+    "urlDtSearch": "http://localhost:8082/v1/search",
+    "urlDTDuplicate": "http://localhost:8082/v1/duplicates",
+    "urlDTDeleteFile": "http://localhost:8082/v1/delete"
+}

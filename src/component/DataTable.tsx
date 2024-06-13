@@ -2,7 +2,9 @@ import React, {useState, useEffect, useCallback} from 'react';
 import Alert from '@mui/material/Alert';
 import { Button, Popover } from '@mui/material';
 import Box from '@mui/material/Box';
-import {DataGrid, GridEventListener,GridColDef} from '@mui/x-data-grid'
+import {DataGrid, GridEventListener,GridColDef} from '@mui/x-data-grid';
+
+import ConfigData from "../config.json"
 
 const columns = [
     {field: 'id', headerName: 'ID'},
@@ -67,13 +69,13 @@ const DataTable = () => {
     // }
 
     useEffect(()=>{
-        fetch("http://localhost:8082/v1/duplicates", reqDetailOptions)
+        fetch(ConfigData.urlDTDuplicate, reqDetailOptions)
         .then((data) => data.json())
         .then((data) => setDetailTableData(data))
     },[fileName, fileSize])
 
     useEffect(()=>{
-        fetch("http://localhost:8082/v1/search", reqOptions)
+        fetch(ConfigData.urlDtSearch, reqOptions)
         .then((data) => data.json())
         .then((data) => setTableData(data))
     },[])
