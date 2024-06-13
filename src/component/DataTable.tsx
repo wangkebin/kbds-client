@@ -48,7 +48,11 @@ const DataTable = () => {
     const reqOptions = {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'search':''})
+        body: JSON.stringify({
+            'search':'',
+            'page':1,
+            'pagesize':100
+        })
     }
 
     const reqDetailOptions = {
