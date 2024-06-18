@@ -64,13 +64,10 @@ const DataTable = () => {
           }])
     }
 
-    // const reqDeleteOptions = {
-    //     method: 'POST',
-    //     headers: {'Content-Type': 'application/json'},
-    //     body: JSON.stringify([{
-    //         "id": fileId
-    //       }])
-    // }
+    const reqDeleteOptions = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+    }
 
     useEffect(()=>{
         fetch(ConfigData.urlDTDuplicate, reqDetailOptions)
@@ -117,7 +114,7 @@ const DataTable = () => {
                 }}
             /> 
             <Button
-            onClick={()=>{alert("deleting file with id="+fileId)}}>Delete Selected file</Button>
+            onClick={()=>{fetch(ConfigData.urlDTDeleteFile+"/"+fileId, reqDeleteOptions)}}>Delete Selected file</Button>
         </div>
        
     )
