@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, MouseEventHandler} from 'react';
 import Alert from '@mui/material/Alert';
 import { Button, Popover } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -41,9 +41,11 @@ const DataTable = () => {
         setFileId(params.row.id)
       };
 
-    //   const handleButtonClickDeleteFile: (event: React.MouseEvent<HTMLAnchorElement>) = ()=>{
-    //     alert(fileId)
-    //   };
+      const handleButtonClickDeleteFile: MouseEventHandler = (params)=>{
+        fetch(ConfigData.urlDTDeleteFile+"/"+fileId, reqDeleteOptions)
+        .then((data) => data.json())
+        .then((data)=> {if(data && data.length > 0) {alert(data)}})
+      };
 
     const reqOptions = {
         method: 'POST',
@@ -114,7 +116,7 @@ const DataTable = () => {
                 }}
             /> 
             <Button
-            onClick={()=>{fetch(ConfigData.urlDTDeleteFile+"/"+fileId, reqDeleteOptions)}}>Delete Selected file</Button>
+            onClick={handleButtonClickDeleteFile}>Delete Selected file</Button>
         </div>
        
     )
