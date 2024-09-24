@@ -1,8 +1,6 @@
-import React, {useState, useEffect, useCallback, MouseEventHandler} from 'react';
-import Alert from '@mui/material/Alert';
-import { Button, Popover } from '@mui/material';
-import Box from '@mui/material/Box';
-import {DataGrid, GridEventListener,GridColDef} from '@mui/x-data-grid';
+import React, {useState, useEffect, MouseEventHandler} from 'react';
+import { Button } from '@mui/material';
+import {DataGrid, GridRowSelectionModel, GridEventListener} from '@mui/x-data-grid';
 
 import ConfigData from "../config.json"
 
@@ -25,7 +23,7 @@ const cntcols = [
 
 const DataTable = () => {
     const [tableData, setTableData] = useState([])
-    const [tableDetailData, setDetailTableData] = useState([])
+    const [tableDetailData, setDetailTableData] = useState<any[]>([])
 
     const [fileName, setFileName] = React.useState('')
     const [fileSize, setFileSize] = React.useState('')
@@ -37,15 +35,25 @@ const DataTable = () => {
         setFileSize(params.row.size)
       };
 
-      const handleDetailRowClick: GridEventListener<'rowClick'> = (params) => {
+    const handleDetailRowClick: GridEventListener<'rowClick'> = (params) => {
         setFileId(params.row.id)
       };
 
-      const handleButtonClickDeleteFile: MouseEventHandler = (params)=>{
-        fetch(ConfigData.urlDTDeleteFile+"/"+fileId, reqDeleteOptions)
+    const handleButtonClickDeleteFile: MouseEventHandler = (params)=>{
+        const selectedRowsData = selectedRows.map((id) => tableDetailData.find((data) => data.id === id));
+        reqDeleteOptions.body = JSON.stringify(selectedRowsData)
+        fetch(ConfigData.urlDTDeleteFile, reqDeleteOptions)
         .then((data) => data.json())
         .then((data)=> {if(data && data.length > 0) {alert(data)}})
       };
+
+    const [selectedRows, setSelectedRows] = React.useState<GridRowSelectionModel>([]);
+
+
+    const handleSelectionChange = (selection: any) => {
+        setSelectedRows(selection);
+      };
+    
 
     const reqOptions = {
         method: 'POST',
@@ -67,8 +75,9 @@ const DataTable = () => {
     }
 
     const reqDeleteOptions = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'}
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: ""
     }
 
     useEffect(()=>{
@@ -104,6 +113,8 @@ const DataTable = () => {
             <DataGrid
                 rows={tableDetailData}
                 columns={cntcols}
+                checkboxSelection
+                onRowSelectionModelChange={handleSelectionChange}
                 columnVisibilityModel={{
                     // Hide columns status and traderName, the other columns will remain visible
                     id: false,
